@@ -10,3 +10,10 @@ pip install Flask
 ```
 pip install Flask --user
 ```
+
+## Create an instance of flask
+- `__name__` is a special attribute with the value of the name of the module (The name of the file)
+``` python
+from flask import Flask
+app = Flask(__name__)
+```
