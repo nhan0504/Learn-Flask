@@ -1,8 +1,7 @@
 # Introduction
 - Flask is a micro web framework that is designed to be simple and easy to use
 
-# Getting started
-## Install
+# Install
 ```
 pip install Flask
 ```
@@ -11,14 +10,14 @@ pip install Flask
 pip install Flask --user
 ```
 
-## Create an instance of flask
-- `__name__` is a special attribute with the value of the name of the module (The name of the file)
+# Create an instance of flask
+`__name__` is a special attribute with the value of the name of the module (The name of the file)
 ``` python
 from flask import Flask
 app = Flask(__name__)
 ```
 
-## Create a route
+# Create a route
 - `@app.route` decorator
 - `<int:item_id>`: A parameter of type int
 ``` python
@@ -29,7 +28,7 @@ def get_item(item_id):
     return item
 ```
 
-### Route with POST methods
+## Route with POST methods
 ``` python 
 from flask import request
 @app.route('/items', methods=['POST'])
@@ -42,4 +41,27 @@ def create_item():
     
     # Return a response indicating that the item was created
     return {'id': new_item_id, 'message': 'Item created successfully'}
+```
+
+# Organize related routes
+- Use Blueprint -> organize related routes, views, and other code -> Register that Blueprint with the Flask application
+Create a blueprint
+``` python
+from flask import Blueprint, jsonify
+
+item_bp = Blueprint('item', __name__)
+
+@item_bp.route('/items')
+def get_items():
+    # Retrieve a list of items from the database
+    items = retrieve_users_from_database()
+    return jsonify(items)
+```
+Register with the flask application
+``` python
+from flask import Flask
+from item_bp import item_bp
+
+app = Flask(__name__)
+app.register_blueprint(item_bp)
 ```
