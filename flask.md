@@ -17,3 +17,29 @@ pip install Flask --user
 from flask import Flask
 app = Flask(__name__)
 ```
+
+## Create a route
+- `@app.route` decorator
+- `<int:item_id>`: A parameter of type int
+``` python
+@app.route('/items/<int:item_id>')
+def get_item(item_id):
+    # Retrieve the item with the specified ID from the database
+    item = retrieve_item_from_database(item_id)
+    return item
+```
+
+### Route with POST methods
+``` python 
+from flask import request
+@app.route('/items', methods=['POST'])
+def create_item():
+    # Retrieve the item data from the request body
+    item_data = request.get_json()
+    
+    # Create a new item in the database using the item data
+    new_item_id = create_item_in_database(item_data)
+    
+    # Return a response indicating that the item was created
+    return {'id': new_item_id, 'message': 'Item created successfully'}
+```
